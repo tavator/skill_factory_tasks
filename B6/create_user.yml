@@ -1,0 +1,18 @@
+- hosts: server
+  become: true
+  tasks: 
+  - name: craete user
+    user: 
+      name: 'user1'
+      state: 'present'
+  - name: copy id_rsa.pub
+    copy:
+      src: ./.ssh
+      dest: /home/user1/
+      owner: user1
+      group: user1
+      mode: preserve
+      directory_mode: 0700
+      remote_src: no
+      decrypt: yes
+
