@@ -1,0 +1,32 @@
+- hosts: localhost
+  become: true
+  gather_facts: no
+  tasks: 
+  - name: install postfix
+    tags: init postfix
+    apt: 
+      name: 'postfix'
+      state: 'present'
+  - name: remove config
+    tags: init postfix
+    file:
+      path: /etc/postfix/main.cf
+      state: absent
+  - name: new config
+    tags: init postfix
+    copy:
+      src: ./postfix/main.cf.default
+      dest: /etc/postfix/main.cf
+  - name: restart postfix
+    tags: init postfix
+    service:
+      name: postfix
+      state: restarted
+  - name: uninstall postfix
+    tags: drop postfix
+    apt:
+      name: 'postfix'
+      state: 'absent'
+      purge: yes
+
+
