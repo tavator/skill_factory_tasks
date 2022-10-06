@@ -1,0 +1,27 @@
+---
+# tasks file for nginx_php
+- name: install package nginx
+  apt:
+    name: nginx
+    state: present
+- name: install package php-fpm
+  apt:
+    name: php-fpm
+    state: present
+- name: copy nginx config
+  copy:
+    src: default
+    dest: /etc/nginx/sites-available/default
+- name: copy index.php
+  copy:
+    src: index.php
+    dest: /var/www/html
+- name: restart service php-fpm
+  service:
+    name: php-fpm
+    state: restart
+- name: restart service nginx
+  service:
+    name: nginx
+    state: restart
+        
