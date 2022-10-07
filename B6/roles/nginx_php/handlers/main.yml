@@ -1,2 +1,8 @@
 ---
 # handlers file for nginx_php
+
+- name: Reload nginx
+  ansible.builtin.service:
+    name: nginx
+    state: reloaded
+
