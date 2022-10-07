@@ -12,16 +12,20 @@
   copy:
     src: default
     dest: /etc/nginx/sites-available/default
+- name: copy php-fpm config
+  copy:
+    src: www.conf
+    dest: /etc/php/8.1/fpm/pool.d
 - name: copy index.php
   copy:
     src: index.php
     dest: /var/www/html
 - name: restart service php-fpm
   service:
-    name: php-fpm
-    state: restart
+    name: php8.1-fpm
+    state: restarted
 - name: restart service nginx
   service:
     name: nginx
-    state: restart
+    state: restarted
         
