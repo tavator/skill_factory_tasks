@@ -1,0 +1,16 @@
+---
+# tasks file for users
+- name: craete user
+  user: 
+    name: '{{ user_name }}'
+    state: 'present'
+- name: copy id_rsa.pub
+  copy:
+    src: .ssh
+    dest: "/home/{{ user_name }}/"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: preserve
+    directory_mode: 0700
+    remote_src: no
+    decrypt: yes

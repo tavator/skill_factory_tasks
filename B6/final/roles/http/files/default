@@ -1,0 +1,15 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /opt/php;
+    index index.php;
+    server_name _;
+    location / {
+	try_files $uri $uri/ =404;
+    }
+
+    location ~ \.php$ {
+	include snippets/fastcgi-php.conf;
+	fastcgi_pass 192.168.122.31:9000;
+    }
+}

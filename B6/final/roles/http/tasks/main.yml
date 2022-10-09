@@ -1,0 +1,24 @@
+---
+# tasks file for mginx
+- name: install package nginx
+  apt:
+    name: nginx
+    state: present
+- name: copy nginx config
+  copy:
+    src: default
+    dest: /etc/nginx/sites-available/default
+  notify:
+    - Reload nginx
+- name: make folder for wwwroot
+  file:
+    path: /opt/php
+    state: directory
+- name: copy index.php
+  copy:
+    src: index.php
+    dest: /opt/php
+- name: Check started service nginx
+  service:
+    name: nginx
+    state: started
