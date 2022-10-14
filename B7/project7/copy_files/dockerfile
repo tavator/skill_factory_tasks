@@ -2,8 +2,6 @@ FROM python:alpine as builder
 RUN pip install flask --user psycopg2-binary configparser
 FROM alpine
 COPY --from=builder /root/.local /root/.local
-COPY ./web.py /srv/app/
-COPY ./web.conf /srv/app/conf/
 COPY --from=builder /usr/local/bin /usr/local/bin
 COPY --from=builder /usr/local/include /usr/local/include
 COPY --from=builder /usr/local/share /usr/local/share
