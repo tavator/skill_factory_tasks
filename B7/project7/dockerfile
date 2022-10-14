@@ -1,5 +1,5 @@
 FROM python:alpine as builder
-RUN pip install flask --user psycopg2-binary configparser
+RUN pip install --user flask psycopg2-binary configparser
 FROM python:alpine
 COPY --from=builder /root/.local /root/.local
 COPY ./web.py /srv/app/
