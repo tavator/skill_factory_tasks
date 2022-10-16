@@ -1,0 +1,36 @@
+version: '3.9'
+
+x-logging: &logging
+ driver: "json-file"
+ options:
+   max-size: "1000m"
+   max-file: "1"
+
+services:
+  web:
+     build: .
+     ports:
+      - "127.0.0.1:${default_port:-5000}:5000"
+     networks:
+       - net
+     depends_on:
+       - redis
+     logging: *logging
+     profiles:
+      - web
+  redis:
+     image: "redis:alpine"
+     networks:
+       - net
+     volumes:
+       - "redis-data:/data"
+     logging: *logging
+     deploy:
+      resources:
+       limits:
+         cpus: "${DOCKER_REDIS_CPUS:-0}"
+         memory: "${DOCKER_REDIS_MEMORY:-0}"
+networks:
+  net:
+volumes:
+  redis-data:
