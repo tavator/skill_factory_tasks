@@ -14,22 +14,28 @@ services:
      networks:
        - net
      depends_on:
-       - redis
+       redis:
+          condition: service_healthy
      logging: *logging
      profiles:
       - web
   redis:
-     image: "redis:alpine"
-     networks:
-       - net
-     volumes:
-       - "redis-data:/data"
-     logging: *logging
-     deploy:
+    image: "redis:alpine"
+    networks:
+      - net
+    volumes:
+      - "redis-data:/data"
+    logging: *logging
+    deploy:
       resources:
-       limits:
-         cpus: "${DOCKER_REDIS_CPUS:-0}"
-         memory: "${DOCKER_REDIS_MEMORY:-0}"
+        limits:
+          cpus: "${DOCKER_REDIS_CPUS:-0}"
+          memory: "${DOCKER_REDIS_MEMORY:-0}"
+    healthcheck:
+      test: ["CMD","redis-cli","ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
 networks:
   net:
 volumes:
