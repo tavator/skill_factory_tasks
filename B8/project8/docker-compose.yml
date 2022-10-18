@@ -10,7 +10,7 @@ services:
        source: ./www
        target: /var/www
     healthcheck:
-      test: curl http://nginx | grep "works1"
+      test: curl http://nginx | grep "works"
       interval: 5s
       timeout: 5s
       retries: 5
