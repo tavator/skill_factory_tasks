@@ -1,0 +1,36 @@
+groups: 
+- name: example
+  rules:
+  - alert: PrometheusTargetMissing
+    expr: up == 0
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Prometheus target missing (instance {{ $labels.instance }})"
+      description: "A Prometheus target has disappeared. An exporter might be crashed. VALUE = {{ $value }}  LABELS: {{ $labels }}"
+- name: web
+  rules:
+  - alert: Change_status_code
+    expr: changes(probe_http_status_code {instance="https://lms.skillfactory.ru"}[5m])
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Изменился код ответа сайта {{ $labels.instance }}"
+  - alert: Delay_more_5_seconds
+    expr: probe_duration_seconds{instance="https://lms.skillfactory.ru"}>3
+    for: 0m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Задержка сайта {{ $labels.instance }} больше 5 секунд"
+- name: server
+  rules:
+  - alert: Server_rebooted
+    expr: time() - node_boot_time_seconds {instance="node-exporter:9100"} < 300
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Сервер {{ $labels.instance }} перезагрузился"
