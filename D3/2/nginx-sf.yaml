@@ -26,14 +26,7 @@ spec:
             mountPath: /tmp/nginx-secret-volume
           - name: nginx-script-volume
             mountPath: /docker-entrypoint.d/40_create_passwd.sh
-            subPath: 40_create_passwd.sh
-        env:
-        - name: NGINX_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: auth-basic
-              key: user1
-
+            subPath: 40_create_passwd.sh            
       volumes:
         - name: nginx-config-volume
           configMap:
