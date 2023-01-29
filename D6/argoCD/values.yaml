@@ -1,5 +1,5 @@
 nginx:
-  enabled: false
+  enabled: true
   replicas: 3
   limits:
    cpu : 1
