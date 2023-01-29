@@ -1,0 +1,6 @@
+nginx:
+  enabled: false
+  replicas: 3
+  limits:
+   cpu : 1
+   memory : 50M
